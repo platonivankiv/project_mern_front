@@ -1,7 +1,7 @@
 .root {
   background-color: #fff;
   padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #9fc5e3;
   margin-bottom: 30px;
 }
 
@@ -11,8 +11,7 @@
 }
 
 .logo {
-  background-color: black;
-  color: #fff;
+  color: #2d79d0;
   font-weight: 600;
   line-height: 35px;
   text-transform: uppercase;
@@ -22,7 +21,7 @@
   text-decoration: none;
 
   &:hover {
-    background-color: #4361ee;
+    color: #4361ee;
   }
 }
 
