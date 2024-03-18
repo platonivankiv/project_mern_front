@@ -16,7 +16,6 @@ export const Login = () => {
     const {
         register,
         handleSubmit,
-        setError,
         formState: {
             errors,
             isValid
@@ -64,9 +63,10 @@ export const Login = () => {
                 label="Пароль" fullWidth
                 error={Boolean(errors.password ?.message)}
                 helperText={errors.password ?.message}
+                type='password'
                 {...register('password', {required: 'Укажите пароль'})}
             />
-            <Button type='submit' size="large" variant="contained" fullWidth>
+            <Button disabled={!isValid} type='submit' size="large" variant="contained" fullWidth>
                 Войти
             </Button>
             </form>

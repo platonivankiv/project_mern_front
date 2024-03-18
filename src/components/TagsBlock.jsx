@@ -9,7 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 
 import {SideBlock} from "./SideBlock";
-import {Index} from "./AddComment";
 
 export const TagsBlock = ({items, isLoading = true}) => {
     return (
