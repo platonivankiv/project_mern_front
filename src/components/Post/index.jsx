@@ -9,6 +9,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchRemovePost } from '../../redux/slices/posts'
+import { ImageWithObjects } from '../ImageWithObjects/ImageWithObjects'
 import { UserInfo } from '../UserInfo'
 import styles from './Post.module.scss'
 import { PostSkeleton } from './Skeleton'
@@ -51,9 +52,21 @@ export const Post = ({
 					</IconButton>
 				</div>
 			)}
-			{imageUrl && (
+			{isFullPost ? (
+				imageUrl && (
+					<ImageWithObjects
+						className={clsx(styles.image, {
+							[styles.imageFull]: isFullPost,
+						})}
+						src={imageUrl}
+						alt={title}
+					/>
+				)
+			) : (
 				<img
-					className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
+					className={clsx(styles.image, {
+						[styles.imageFull]: isFullPost,
+					})}
 					src={imageUrl}
 					alt={title}
 				/>
