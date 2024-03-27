@@ -1,7 +1,6 @@
 import * as cocoSsd from '@tensorflow-models/coco-ssd'
 import '@tensorflow/tfjs'
 import React, { useEffect, useRef, useState } from 'react'
-// import styles from './ImageWithObjects.module.scss'
 
 export const ImageWithObjects = ({ src }) => {
 	const [objects, setObjects] = useState([])
@@ -29,7 +28,6 @@ export const ImageWithObjects = ({ src }) => {
 
 	useEffect(() => {
 		const canvas = canvasRef.current
-		const ctx = canvas.getContext('2d')
 
 		// Функция для обработки движения мыши
 		const handleMouseMove = event => {
