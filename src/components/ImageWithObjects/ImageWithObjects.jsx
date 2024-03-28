@@ -1,5 +1,6 @@
 import * as cocoSsd from '@tensorflow-models/coco-ssd'
 import '@tensorflow/tfjs'
+
 import React, { useEffect, useRef, useState } from 'react'
 
 export const ImageWithObjects = ({ src }) => {

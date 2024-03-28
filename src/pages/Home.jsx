@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
-import React from 'react'
+import { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { CommentsBlock } from '../components/CommentsBlock'
@@ -13,11 +13,23 @@ export const Home = () => {
 	const dispatch = useDispatch()
 	const userData = useSelector(state => state.auth.data)
 	const { posts, tags } = useSelector(state => state.posts)
+	const [sortType, setSortType] = useState('new')
+	const [selectedTab, setSelectedTab] = useState('new')
 	const isPostsLoading = posts.status === 'loading'
 	const isTagsLoading = tags.status === 'loading'
 
-	React.useEffect(() => {
-		dispatch(fetchPosts())
+	const handleFetchPosts = type => {
+		setSortType(type)
+		dispatch(fetchPosts(type))
+	}
+
+	const handleChange = (event, newValue) => {
+		setSelectedTab(newValue)
+		handleFetchPosts(newValue)
+	}
+
+	useEffect(() => {
+		handleFetchPosts(selectedTab)
 		dispatch(fetchTags())
 	}, [])
 
@@ -25,11 +37,14 @@ export const Home = () => {
 		<>
 			<Tabs
 				style={{ marginBottom: 15 }}
-				value={0}
+				value={selectedTab}
+				onChange={handleChange}
+				indicatorColor='primary'
+				textColor='primary'
 				aria-label='basic tabs example'
 			>
-				<Tab label='Новые' />
-				<Tab label='Популярные' />
+				<Tab label='Новые' value='new' />
+				<Tab label='Популярные' value='popular' />
 			</Tabs>
 			<Grid container spacing={4}>
 				<Grid xs={8} item>
@@ -38,6 +53,7 @@ export const Home = () => {
 							<Post key={index} isLoading={true} />
 						) : (
 							<Post
+								key={obj._id}
 								id={obj._id}
 								title={obj.title}
 								imageUrl={
