@@ -72,7 +72,10 @@ export const Post = ({
 				/>
 			)}
 			<div className={styles.wrapper}>
-				<UserInfo {...user} additionalText={createdAt} />
+				<UserInfo
+					{...user}
+					additionalText={new Date(createdAt).toLocaleString()}
+				/>
 				<div className={styles.indention}>
 					<h2
 						className={clsx(styles.title, { [styles.titleFull]: isFullPost })}
