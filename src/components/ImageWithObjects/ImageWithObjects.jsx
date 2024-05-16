@@ -59,7 +59,7 @@ export const ImageWithObjects = ({ src }) => {
 		// Очистка предыдущих обводок
 		if (selectedObject) {
 			const [x, y, width, height] = selectedObject.bbox
-			ctx.strokeStyle = 'blue'
+			ctx.strokeStyle = '#4361ee'
 			ctx.lineWidth = 4
 			ctx.strokeRect(x, y, width, height)
 
@@ -71,7 +71,7 @@ export const ImageWithObjects = ({ src }) => {
 
 			// Задаем стиль и размер текста
 			ctx.font = '18px sans-serif'
-			ctx.fillStyle = 'red'
+			ctx.fillStyle = '#4361ee'
 			ctx.fillText(selectedObject.class, x, y)
 		}
 	}, [selectedObject])

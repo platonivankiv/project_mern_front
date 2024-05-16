@@ -1,30 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import axios from '../axios'
 
-import { Index } from '../components/AddComment'
-import { CommentsBlock } from '../components/CommentsBlock'
+import { AddComment } from '../components/AddComment'
+import { CommentsBlock } from '../components/CommentsBlock/CommentsBlock'
 import { Post } from '../components/Post'
 
 export const FullPost = () => {
 	const [data, setData] = useState()
+	const [comments, setComments] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
 	const { id } = useParams()
+	const userData = useSelector(state => state.auth.data)
+
+	const handleAddComment = text => {
+		axios
+			.post(`/posts/${id}/comments`, { text })
+			.then(response => {
+				setComments(prevComments => [...prevComments, response.data])
+			})
+			.catch(error => {
+				console.error('Ошибка при добавлении комментария:', error)
+			})
+	}
 
 	useEffect(() => {
-		axios
-			.get(`/posts/${id}`)
-			.then(res => {
-				setData(res.data)
-				setIsLoading(false)
-			})
-			.catch(err => {
+		const fetchData = async () => {
+			setIsLoading(true)
+			try {
+				const postData = await axios.get(`/posts/${id}`)
+				setData(postData.data)
+				const commentsData = await axios.get(`/posts/${id}/comments`)
+				setComments(commentsData.data)
+			} catch (err) {
 				console.warn(err)
-				alert('Ошибка при получении статьи')
-			})
-	}, [])
+				alert('Ошибка при получении статьи и комментариев')
+			} finally {
+				setIsLoading(false)
+			}
+		}
+
+		fetchData()
+	}, [id])
 
 	if (isLoading) {
 		return <Post isLoading={isLoading} isFullPost />
@@ -39,32 +59,19 @@ export const FullPost = () => {
 				user={data.user}
 				createdAt={data.createdAt}
 				viewsCount={data.viewsCount}
-				commentsCount={3}
+				commentsCount={comments.length}
 				tags={data.tags}
 				isFullPost
 			>
 				<ReactMarkdown children={data.text} />
 			</Post>
-			<CommentsBlock
-				items={[
-					{
-						user: {
-							fullName: 'Вася Пупкин',
-							avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-						},
-						text: 'Это тестовый комментарий',
-					},
-					{
-						user: {
-							fullName: 'Иван Иванов',
-							avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-						},
-						text: 'Это тестовый комментарий',
-					},
-				]}
-				isLoading={false}
-			>
-				<Index />
+
+			<CommentsBlock items={comments} isLoading={isLoading}>
+				<AddComment
+					onAddComment={handleAddComment}
+					// userName={data.fullName}
+					// userAvatarUrl={data.avatarUrl}
+				/>
 			</CommentsBlock>
 		</>
 	)

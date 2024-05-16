@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs'
 import { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { CommentsBlock } from '../components/CommentsBlock'
+import { CommentsBlock } from '../components/CommentsBlock/CommentsBlock'
 import { Post } from '../components/Post'
 import { TagsBlock } from '../components/TagsBlock'
 import { fetchPosts, fetchTags } from '../redux/slices/posts'
@@ -62,7 +62,7 @@ export const Home = () => {
 								user={obj.user}
 								createdAt={obj.createdAt}
 								viewsCount={obj.viewsCount}
-								commentsCount={3}
+								commentsCount={obj.commentsCount}
 								tags={obj.tags}
 								isEditable={userData?._id === obj.user._id}
 							/>

@@ -1,0 +1,12 @@
+$blue: #4361ee;
+
+.root {
+	&:hover {
+		border: 1px solid $blue;
+		box-shadow: 0 0 0 1px $blue;
+
+		.editButtons {
+			opacity: 1;
+		}
+	}
+}
